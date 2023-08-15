@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('title', 'Wawan Store')
+@section('title', 'Dashboard')
 @section('content')
     <div class="container-fluid px-4">
         <h1 class="mt-4">Dashboard Title</h1>
