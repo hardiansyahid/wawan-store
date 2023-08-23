@@ -12,7 +12,7 @@
             </div>
 
             <div class="align-self-center">
-                <a class="btn btn-primary">TAMBAH</a>
+                <a class="btn btn-primary" href="{{url('penjualan/tambah')}}">TAMBAH</a>
             </div>
         </div>
 

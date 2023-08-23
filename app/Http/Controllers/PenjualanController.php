@@ -9,4 +9,8 @@ class PenjualanController extends Controller
     public function index(){
         return view('penjualan.index');
     }
+
+    public function tambah(){
+        return view('penjualan.tambah');
+    }
 }
