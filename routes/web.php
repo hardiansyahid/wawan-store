@@ -11,3 +11,13 @@ Route::prefix('auth')->group(function (){
     Route::post('/doLogin', [\App\Http\Controllers\AuthController::class, 'doLogin']);
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
+
+Route::prefix('user')->group(function (){
+    Route::get('', [\App\Http\Controllers\UserController::class, 'index']);
+});
+Route::prefix('barang')->group(function (){
+    Route::get('', [\App\Http\Controllers\BarangController::class, 'index']);
+});
+Route::prefix('penjualan')->group(function (){
+    Route::get('', [\App\Http\Controllers\PenjualanController::class, 'index']);
+});
