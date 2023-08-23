@@ -23,6 +23,7 @@
                     </form>
                 </div>
                 <div class="card-footer text-center py-3">
+                    <a href="{{url('/')}}" class="text-decoration-none" >Kembali ke Landing Page</a>
                 </div>
             </div>
         </div>
