@@ -22,3 +22,5 @@ Route::prefix('penjualan')->group(function (){
     Route::get('', [\App\Http\Controllers\PenjualanController::class, 'index']);
     Route::get('/tambah', [\App\Http\Controllers\PenjualanController::class, 'tambah']);
 });
+
+Route::resource('references', \App\Http\Controllers\MstReferenceController::class);
