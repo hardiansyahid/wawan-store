@@ -41,7 +41,7 @@
                                 <td>{{ $reference->category }}</td>
                                 <td>{{ $reference->nama }}</td>
                                 <td>{{ $reference->code }}</td>
-                                <td>{{ $reference->isactive ? '<i class="fas fa-check"></i>' : '<i class="fas fa-check"></i>' }}</td>
+                                <td>{!! $reference->isactive ? '<i class="text-success fas fa-check"></i>' : '<i class="text-danger fas fa-times"></i>' !!}</td>
                                 <td>
                                     <a href="{{ route('references.edit', $reference->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                     <form action="{{ route('references.destroy', $reference->id) }}" method="POST" style="display: inline">

@@ -19,6 +19,7 @@ class CreateMstBarangTable extends Migration
             $table->integer('harga');
             $table->integer('stok');
             $table->integer('category');
+            $table->date('expired');
             $table->timestamps();
         });
     }

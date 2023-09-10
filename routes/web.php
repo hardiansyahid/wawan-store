@@ -24,3 +24,4 @@ Route::prefix('penjualan')->group(function (){
 });
 
 Route::resource('references', \App\Http\Controllers\MstReferenceController::class);
+Route::resource('barang', \App\Http\Controllers\MstBarangController::class);
