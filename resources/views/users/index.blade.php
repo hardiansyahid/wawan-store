@@ -12,7 +12,7 @@
             </div>
 
             <div class="align-self-center">
-                <a class="btn btn-primary">TAMBAH</a>
+                <a href="{{ route('users.create') }}" class="btn btn-primary">TAMBAH</a>
             </div>
         </div>
 
@@ -25,43 +25,39 @@
                 <table id="datatablesSimple">
                     <thead>
                     <tr>
+                        <th>Nama</th>
                         <th>Username</th>
                         <th>Role</th>
-                        <th>Aktif</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
+                        <th>Nama</th>
                         <th>Username</th>
                         <th>Role</th>
-                        <th>Aktif</th>
                         <th>Aksi</th>
                     </tr>
                     </tfoot>
                     <tbody>
+                    @foreach ($users as $user)
                         <tr>
-                            <td>admin</td>
-                            <td>
-                                <div class="badge bg-primary">admin</div>
-                            </td>
-                            <td><i class="fas fa-check"></i></td>
-                            <td>
-                                <a class="btn btn-sm btn-success">Edit</a>
-                                <a class="btn btn-sm btn-danger">Hapus</a>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{!!  $user->ref_role != null ? $user->ref_role->nama == "ADMIN" ? '<div class="badge bg-primary">'.$user->ref_role->nama.'</div>' : '<div class="badge bg-secondary">'.$user->ref_role->nama.'</div>' : ""  !!}</td>
+                            <td class="d-flex">
+                                <a class="btn btn-sm btn-success" href="{{ route('users.edit', $user->id) }}">Edit</a>
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                      style="display: inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure?')">Hapus
+                                    </button>
+                                </form>
                             </td>
                         </tr>
-                        <tr>
-                            <td>kasir1</td>
-                            <td>
-                                <div class="badge bg-secondary">kasir</div>
-                            </td>
-                            <td><i class="fas fa-check"></i></td>
-                            <td>
-                                <a class="btn btn-sm btn-success">Edit</a>
-                                <a class="btn btn-sm btn-danger">Hapus</a>
-                            </td>
-                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

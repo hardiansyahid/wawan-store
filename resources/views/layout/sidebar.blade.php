@@ -12,7 +12,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     References
                 </a>
-                <a class="nav-link" href="{{url('user')}}">
+                <a class="nav-link" href="{{url('users')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     User
                 </a>

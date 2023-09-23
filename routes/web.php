@@ -12,12 +12,6 @@ Route::prefix('auth')->group(function (){
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
 
-Route::prefix('user')->group(function (){
-    Route::get('', [\App\Http\Controllers\UserController::class, 'index']);
-});
-Route::prefix('barang')->group(function (){
-    Route::get('', [\App\Http\Controllers\BarangController::class, 'index']);
-});
 Route::prefix('penjualan')->group(function (){
     Route::get('', [\App\Http\Controllers\PenjualanController::class, 'index']);
     Route::get('/tambah', [\App\Http\Controllers\PenjualanController::class, 'tambah']);
@@ -25,3 +19,4 @@ Route::prefix('penjualan')->group(function (){
 
 Route::resource('references', \App\Http\Controllers\MstReferenceController::class);
 Route::resource('barang', \App\Http\Controllers\MstBarangController::class);
+Route::resource('users', \App\Http\Controllers\UserController::class);
