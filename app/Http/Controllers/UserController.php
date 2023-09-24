@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MstReferenceModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,6 +30,7 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
+        $request->password = Hash::make($request->password);
         User::create($request->all());
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');

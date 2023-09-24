@@ -11,6 +11,7 @@ class HomeController extends Controller
     }
 
     public function dashboard(){
+        $user = session('user');
         return view('home.dashboard');
     }
 }

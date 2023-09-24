@@ -6,14 +6,22 @@
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Wawan Store</h3></div>
                 <div class="card-body">
+
+                    @if(Session::has('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ Session::get('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
                     <form action="{{url('/auth/doLogin')}}" method="POST">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="username" type="text" placeholder="Username" />
+                            <input class="form-control" id="username" name="username" type="text" placeholder="Username" required />
                             <label for="username">Username</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="password" type="password" placeholder="Password" />
+                            <input class="form-control" id="password" name="password" type="password" placeholder="Password" required />
                             <label for="password">Password</label>
                         </div>
 
