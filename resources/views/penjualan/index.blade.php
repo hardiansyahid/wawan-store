@@ -42,17 +42,17 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>SELL11082023</td>
-                            <td>11-08-2023</td>
-                            <td>53.000</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary">Detail Penjualan</a>
-                                <a class="btn btn-sm btn-success">Edit</a>
-                                <a class="btn btn-sm btn-danger">Hapus</a>
-                            </td>
-                        </tr>
+                        @foreach($transaksi as $transaksi)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $transaksi->kode }}</td>
+                                <td>{{ $transaksi->tanggal }}</td>
+                                <td>{{ $transaksi->total_bayar }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-success" href="{{url('penjualan/detail')}}/{{$transaksi->id}}">Detail Penjualan</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

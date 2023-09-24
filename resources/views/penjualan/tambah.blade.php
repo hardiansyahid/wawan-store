@@ -36,7 +36,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="3">TOTAL BAYAR</td>
+                        <td colspan="4">TOTAL BAYAR</td>
                         <td id="totalBayar"></td>
                     </tr>
                 </tfoot>
@@ -47,7 +47,7 @@
 
         <div class="d-flex justify-content-between mt-5">
             <a class="btn btn-secondary" href="{{url('penjualan')}}">KEMBALI</a>
-            <button class="btn btn-primary">SIMPAN</button>
+            <button class="btn btn-primary" onclick="submitData()">SIMPAN</button>
         </div>
 
         <div class="modal fade" id="modalTambahBarang" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,8 +82,12 @@
 
 
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    @include('layout.components.select2')
+    @include('layout.components.axios')
+
     <script>
+        const barang_list = {!! json_encode($barang) !!};
+
         $( document ).ready(function() {
             $('.my-select2').select2({
                 dropdownParent: $('#modalTambahBarang'),
@@ -110,6 +114,7 @@
             $('#rowBarangPenjualan').append(`
                 <tr>
                     <td class="barang">${selectedBarang.nama}</td>
+                    <td class="barang_id hide">${selectedBarang.id}</td>
                     <td class="harga">${selectedBarang.harga}</td>
                     <td class="jumlah">${jumlah}</td>
                     <td class="total">${parseInt(selectedBarang.harga) * jumlah}</td>
@@ -134,34 +139,65 @@
         }
 
         function getListBarang(id = null) {
-            let barang = [
-                {
-                    id: 1,
-                    nama: "Minyak Curah 250ml",
-                    harga: 7000
-                },
-                {
-                    id: 2,
-                    nama: "Minyak Goreng Bimoli 1L",
-                    harga: 25000
-                },
-                {
-                    id: 3,
-                    nama: "Tepung Segitiga 1kg",
-                    harga: 15000
-                },
-                {
-                    id: 4,
-                    nama: "Tepung Terigu 250gr",
-                    harga: 4000
-                }
-            ];
+            let barang = barang_list;
 
             if (id === null) {
                 return barang;
             } else {
                 let found = barang.find((element) => element.id == id);
                 return found;
+            }
+        }
+
+        function submitData(){
+            let detailTransaksiParam = [];
+            let totalHarga = 0;
+
+            $("#rowBarangPenjualan tr").each(function() {
+
+                const barang_id = parseInt($(this).find(".barang_id").text());
+                const harga = parseInt($(this).find(".harga").text());
+                const jumlah = parseInt($(this).find(".jumlah").text());
+                const total = parseInt($(this).find(".total").text());
+
+                totalHarga += total;
+
+                if(
+                    (barang_id !== undefined || true) &&
+                    (harga !== undefined || true) &&
+                    (jumlah !== undefined || true) &&
+                    (total !== undefined || true)
+                ){
+                    detailTransaksiParam.push({
+                        barang_id : barang_id,
+                        harga : harga,
+                        jumlah : jumlah,
+                        total : total
+                    })
+                }
+            })
+
+            if(detailTransaksiParam.length > 0){
+
+                let param = {
+                    total_bayar : totalHarga,
+                    detailTransaksi : detailTransaksiParam
+                }
+
+                axios.post("{{url('penjualan/store')}}", param).then(res => {
+                    let msg = "Transaksi berhasil disimpan";
+                    if(res?.data?.message) msg = res?.data?.message;
+                    alert(msg)
+                    if (res?.status === 200) {
+                        window.location.href = "{{ url('penjualan') }}";
+                    }
+                }).catch(err => {
+                    alert("terjadi kesalahan")
+                    console.error(err)
+                    console.log(err?.response?.data?.message)
+                })
+            }else{
+                alert("data tidak boleh kosong")
             }
         }
     </script>

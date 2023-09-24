@@ -15,6 +15,8 @@ Route::prefix('auth')->group(function (){
 Route::prefix('penjualan')->group(function (){
     Route::get('', [\App\Http\Controllers\PenjualanController::class, 'index']);
     Route::get('/tambah', [\App\Http\Controllers\PenjualanController::class, 'tambah']);
+    Route::get('/detail/{id}', [\App\Http\Controllers\PenjualanController::class, 'detail']);
+    Route::post('/store', [\App\Http\Controllers\PenjualanController::class, 'store']);
 });
 
 Route::resource('references', \App\Http\Controllers\MstReferenceController::class);
