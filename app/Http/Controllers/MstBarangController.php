@@ -64,4 +64,21 @@ class MstBarangController extends Controller
         return redirect()->route('barang.index')
             ->with('success', 'Barang deleted successfully.');
     }
+
+    public static function handlePenguranganStok($barangId, $stok) {
+        $barang = MstBarangModel::find($barangId);
+
+        if (!$barang) throw new \Exception("Barang tidak ditemukan");
+        if ($stok > $barang->stok) throw new \Exception("Stok tidak mencukupi");
+
+        if ($barang->stok === 0) {
+            throw new \Exception("Stok kosong");
+        }else{
+            $updatedStok = $barang->stok - $stok;
+            $barang->stok = $updatedStok;
+
+            $barang->save();
+        }
+
+    }
 }

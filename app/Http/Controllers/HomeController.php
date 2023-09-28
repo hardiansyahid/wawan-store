@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Transaksi;
 
 class HomeController extends Controller
 {
@@ -11,7 +11,9 @@ class HomeController extends Controller
     }
 
     public function dashboard(){
-        $user = session('user');
-        return view('home.dashboard');
+        $transaksi = Transaksi::all();
+        return view('home.dashboard', compact(
+            'transaksi'
+        ));
     }
 }

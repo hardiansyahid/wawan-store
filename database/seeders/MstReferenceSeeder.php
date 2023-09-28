@@ -32,7 +32,7 @@ class MstReferenceSeeder extends Seeder
             [
                 'category' => 'BARANG',
                 'nama' => 'Minyak Goreng',
-                'code' => 'KSR',
+                'code' => 'MINGOR',
                 'isactive' => 1,
                 'created_at' => now(),
             ]

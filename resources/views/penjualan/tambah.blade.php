@@ -18,7 +18,7 @@
             </div>
 
             <div class="align-self-center">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahBarang">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahBarang" id="btnTambahBarang">
                     TAMBAH
                 </button>
             </div>
@@ -36,7 +36,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="4">TOTAL BAYAR</td>
+                        <td colspan="3">TOTAL BAYAR</td>
                         <td id="totalBayar"></td>
                     </tr>
                 </tfoot>
@@ -66,8 +66,13 @@
                         </div>
 
                         <div class="mt-3">
+                            <label for="stok">Stok</label>
+                            <input type="text" class="form-control" id="stok" name="stok" disabled>
+                        </div>
+
+                        <div class="mt-3">
                             <label for="jumlah">Jumlah</label>
-                            <input type="text" class="form-control" id="jumlah" name="jumlah">
+                            <input type="number" class="form-control" id="jumlah" name="jumlah">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -96,6 +101,30 @@
             setListBarang();
         });
 
+        $('#barang').on('change', function (){
+            handleDisplayStok();
+        })
+
+        $('#btnTambahBarang').on('click', function (){
+            setListBarang();
+        })
+
+        function handleDisplayStok(){
+            let barang = $('#barang').val();
+            let selectedBarang = getListBarang(barang)
+
+            $('#stok').val(selectedBarang.stok)
+        }
+
+        function validateStok(stok, jumlah){
+            if (stok === 0) return false
+            if(jumlah > stok){
+                return false
+            }else {
+                return true
+            }
+        }
+
         function handleGetTotalBayar(){
             let totalHarga = 0;
             $("#rowBarangPenjualan tr").each(function() {
@@ -109,21 +138,27 @@
             let barang = $('#barang').val();
             let jumlah = $('#jumlah').val();
 
-            let selectedBarang = getListBarang(barang)
+            let selectedBarang = getListBarang(barang, jumlah)
 
-            $('#rowBarangPenjualan').append(`
-                <tr>
-                    <td class="barang">${selectedBarang.nama}</td>
-                    <td class="barang_id hide">${selectedBarang.id}</td>
-                    <td class="harga">${selectedBarang.harga}</td>
-                    <td class="jumlah">${jumlah}</td>
-                    <td class="total">${parseInt(selectedBarang.harga) * jumlah}</td>
-                </tr>
-            `)
+            if(validateStok(selectedBarang.stok, jumlah)){
+                $('#rowBarangPenjualan').append(`
+                    <tr>
+                        <td class="barang">${selectedBarang.nama}</td>
+                        <td class="barang_id" style="display: none;">${selectedBarang.id}</td>
+                        <td class="harga">${selectedBarang.harga}</td>
+                        <td class="jumlah">${jumlah}</td>
+                        <td class="total">${parseInt(selectedBarang.harga) * jumlah}</td>
+                    </tr>
+                `)
 
-            handleGetTotalBayar();
-            $('#jumlah').val("");
-            $('#modalTambahBarang').modal('hide');
+                updateStok(selectedBarang.id, jumlah);
+                handleGetTotalBayar();
+                $('#jumlah').val("");
+                $('#modalTambahBarang').modal('hide');
+            }else {
+                alert("Stok tidak mencukupi")
+            }
+
         }
 
         function setListBarang(){
@@ -136,6 +171,7 @@
             }
 
             $('#barang').html(option);
+            handleDisplayStok();
         }
 
         function getListBarang(id = null) {
@@ -144,8 +180,20 @@
             if (id === null) {
                 return barang;
             } else {
-                let found = barang.find((element) => element.id == id);
-                return found;
+                return barang.find((element) => element.id === parseInt(id));
+            }
+        }
+
+        function updateStok(id,jumlah){
+            let found = barang_list.find((element) => element.id === parseInt(id));
+            if (found){
+                if (found.stok >= jumlah){
+                    found.stok = found.stok - jumlah;
+                }else{
+                    alert("Stok kosong");
+                }
+            }else {
+                alert("Barang tidak ditemukan");
             }
         }
 
@@ -178,7 +226,6 @@
             })
 
             if(detailTransaksiParam.length > 0){
-
                 let param = {
                     total_bayar : totalHarga,
                     detailTransaksi : detailTransaksiParam

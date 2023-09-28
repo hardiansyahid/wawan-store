@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
 use App\Models\DetailTransaksi;
 use App\Models\MstBarangModel;
 use App\Models\Transaksi;
@@ -26,6 +27,17 @@ class PenjualanController extends Controller
         return view('penjualan.tambah', compact('barang'));
     }
 
+    public function report(Request $request){
+        $tanggal = $request->tanggal;
+        if ($tanggal){
+            $report = Transaksi::with('ref_detailTransaksi')->where('tanggal', Helper::dateFormatDB($tanggal))->get();
+        }else{
+            $report = Transaksi::with('ref_detailTransaksi')->where('tanggal', Helper::dateFormatDB(now()))->get();
+        }
+
+        return view('penjualan.report', compact('report', 'tanggal'));
+    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -48,6 +60,9 @@ class PenjualanController extends Controller
                     $detailTransaksi->harga = $detail['harga'];
                     $detailTransaksi->jumlah = $detail['jumlah'];
                     $detailTransaksi->total = $detail['total'];
+
+                    MstBarangController::handlePenguranganStok($detailTransaksi->barang_id, $detailTransaksi->jumlah);
+
                     $detailTransaksi->save();
                 }
             }

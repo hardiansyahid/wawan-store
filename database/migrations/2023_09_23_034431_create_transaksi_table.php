@@ -17,7 +17,7 @@ class CreateTransaksiTable extends Migration
             $table->id();
             $table->string('kode');
             $table->date('tanggal');
-            $table->decimal('total_bayar', 10, 2);
+            $table->integer('total_bayar');
             $table->timestamps();
         });
     }

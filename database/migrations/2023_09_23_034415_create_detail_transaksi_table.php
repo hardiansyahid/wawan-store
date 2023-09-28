@@ -17,9 +17,9 @@ class CreateDetailTransaksiTable extends Migration
             $table->id();
             $table->integer('barang_id');
             $table->integer('transaksi_id');
-            $table->decimal('harga', 10, 2);
+            $table->integer('harga');
             $table->integer('jumlah');
-            $table->decimal('total', 10, 2);
+            $table->integer('total');
             $table->timestamps();
         });
     }

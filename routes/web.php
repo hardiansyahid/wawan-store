@@ -21,6 +21,9 @@ Route::middleware(['auth'])->group(function (){
     });
 
     Route::middleware(['isAdmin'])->group(function (){
+        Route::prefix('penjualan')->group(function (){
+            Route::get('/report', [\App\Http\Controllers\PenjualanController::class, 'report']);
+        });
         Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'dashboard']);
         Route::resource('references', \App\Http\Controllers\MstReferenceController::class);
         Route::resource('barang', \App\Http\Controllers\MstBarangController::class);

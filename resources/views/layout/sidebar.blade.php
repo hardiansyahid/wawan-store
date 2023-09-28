@@ -21,6 +21,12 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                         Barang
                     </a>
+
+                    <div class="sb-sidenav-menu-heading">Transaksi</div>
+                    <a class="nav-link" href="{{url('penjualan/report')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-dollar-sign"></i></div>
+                        Laporan Penjualan
+                    </a>
                 @endif
 
                 @if(session('user.ref_role.nama') === \App\Helper\Constant::ROLE_KASIR)

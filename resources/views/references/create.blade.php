@@ -28,7 +28,7 @@
             </div>
 
             <div class="d-flex justify-content-between mt-5">
-                <a class="btn btn-secondary" href="{{url('references/index')}}">KEMBALI</a>
+                <a class="btn btn-secondary" href="{{url('references')}}">KEMBALI</a>
                 <button type="submit" class="btn btn-primary">SIMPAN</button>
             </div>
         </form>
