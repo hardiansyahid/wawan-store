@@ -42,7 +42,10 @@
                             <td>{{ $barang->harga }}</td>
                             <td>{{ $barang->stok }}</td>
                             <td>{{ $barang->ref_category->nama }}</td>
-                            <td>{{ $barang->expired != null ? Helper::dateFormat($barang->expired) : "-" }}</td>
+                            <td>
+                                {{ $barang->expired != null ? \App\Helper\Helper::dateFormat($barang->expired) : "-" }} -
+                                ( {{ $barang->expired != null ? \App\Helper\Helper::expiredDay($barang->expired)." Hari Lagi" : "-" }} )
+                            </td>
                             <td>
                                 <a href="{{ route('barang.edit', $barang->id) }}"
                                    class="btn btn-sm btn-success">Edit</a>
